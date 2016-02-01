@@ -4,7 +4,7 @@ package com.example.siddhant.article_publisher;
  * Created by siddhant on 1/2/16.
  */
 public class Constants {
-    public static final String SERVER_IP = "172.20.205.82:8082";
+    public static final String SERVER_IP = "104.199.148.118:8082";
 
     public static final String LOGIN = "/publisher/do_login";
     public static final String ADD_PUBLISHER = "/publisher/add_publisher";
