@@ -3,6 +3,7 @@ package com.example.siddhant.article_publisher.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,12 +52,16 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        sf = getSharedPreferences(Constants.UserInfoSharedPref, MODE_PRIVATE);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             SpannableString s = new SpannableString("Published Articles");
             s.setSpan(new TypefaceSpan(Globals.typeface), 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             actionBar.setTitle(s);
+            SpannableString s1 = new SpannableString("Hello " + sf.getString(Constants.UserName, "").split(" ")[0] + "!");
+            s1.setSpan(new TypefaceSpan(Globals.typeface), 0, s1.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            actionBar.setSubtitle(s1);
         }
 
 //        progress = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
@@ -71,7 +76,6 @@ public class DashboardActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.textView)).setTypeface(Globals.typeface);
         ((TextView) findViewById(R.id.tryAgainTextView)).setTypeface(Globals.typeface);
 
-        sf = getSharedPreferences(Constants.UserInfoSharedPref, MODE_PRIVATE);
 
         if (sf.getString(Constants.Categories, "").equals("")) {
             saveCategories();
@@ -95,7 +99,13 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-
+        FloatingActionButton publishButton = (FloatingActionButton) findViewById(R.id.publishButton);
+        publishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardActivity.this, PublishActivity.class));
+            }
+        });
     }
 
     private void LoadListView() {
@@ -153,23 +163,23 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_dashboard, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_publish:
-                startActivity(new Intent(DashboardActivity.this, PublishActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_dashboard, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_publish:
+//                startActivity(new Intent(DashboardActivity.this, PublishActivity.class));
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     private void saveCategories() {
         new Thread(new Runnable() {
